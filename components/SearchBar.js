@@ -6,7 +6,6 @@ const SearchBar = ({onSubmit, setSearchValue}) => {
   const [searchBarText, setSearchBarText] = useState("");
 
   const handleOnChange = (e) => {
-    console.log(searchBarText);
     setSearchBarText(e.target.value);
     setSearchValue(e.target.value)
   };

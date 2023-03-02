@@ -33,8 +33,8 @@ const Home = () => {
   };
 
   // map through photosGallery array and display photos for user to see from ImageGallery component
-  const displayPhotos = photosGallery.map((photo) => {
-    return <ImageGallery url={photo.urls["small"]} />;
+  const displayPhotos = photosGallery.map((photo, index) => {
+    return <ImageGallery key={index} url={photo.urls["small"]} />;
   });
 
 
