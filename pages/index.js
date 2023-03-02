@@ -48,7 +48,7 @@ const Home = () => {
       <main className="">
         <SearchBar onSubmit={handleSubmit} setSearchValue={setSearchValue} />
       {/* Default view shows nothing to user, but if a user submits a search, then counter is updated and photo's appear  */}
-        <div>{photosGallery.length ? <div className="flex flex-wrap justify-center mt-6">{displayPhotos}</div> : null}</div>
+        <div>{photosGallery.length ? <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 justify-center mt-6">{displayPhotos}</div> : null}</div>
       </main>
 
       <footer className=""></footer>
