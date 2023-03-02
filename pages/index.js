@@ -1,47 +1,42 @@
 import Head from "next/head";
 import SearchBar from "../components/SearchBar";
 import ImageGallery from "../components/ImageGallery";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createApi } from "unsplash-js";
 
 const Home = () => {
   // initial state with an empty array - showing no photos to the user
-  const [animalPhotosGallery, setAnimalPhotosGallery] = useState([]);
-  const [counter, setCounter] = useState(0);
+  const [photosGallery, setphotosGallery] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
 
   // function that gets a collection of photos from the unsplash API based on query input
-  const getAnimalPhotos = async () => {
+  const getPhotos = async () => {
     const unsplash = createApi({
       accessKey: process.env.NEXT_PUBLIC_UNSPLASH_API_KEY,
     });
 
     const photos = await unsplash.search.getPhotos({
-      query: "cars",
+      query: searchValue,
       page: 1,
       perPage: 10,
-      color: "green",
       orientation: "portrait",
     });
 
-    const animalPhotos = photos?.response.results;
-    console.log(animalPhotos);
-    console.log(animalPhotos[0].urls["small"]);
-
-    return animalPhotos;
+    const photoArray = photos?.response.results;
+    return photoArray;
   };
 
   // onSubmit event handler function, updates state to show animal photos
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setAnimalPhotosGallery(await getAnimalPhotos());
-    setCounter(1);
+    setphotosGallery(await getPhotos());
   };
 
-  // map through animalPhotosGallery array and display photos for user to see from ImageGallery component
-const displayPhotos = animalPhotosGallery.map((photo) => {
-  return <ImageGallery url={photo.urls["small"]}/>
-})
-  
+  // map through photosGallery array and display photos for user to see from ImageGallery component
+  const displayPhotos = photosGallery.map((photo) => {
+    return <ImageGallery url={photo.urls["small"]} />;
+  });
+
 
   return (
     <div className="">
@@ -51,15 +46,9 @@ const displayPhotos = animalPhotosGallery.map((photo) => {
       </Head>
 
       <main className="">
-        <SearchBar onSubmit={handleSubmit} />
-
-        <div>
-          {counter === 1 ? (
-            <div>
-            {displayPhotos}
-            </div>
-          ) : null}
-        </div>
+        <SearchBar onSubmit={handleSubmit} setSearchValue={setSearchValue} />
+      {/* Default view shows nothing to user, but if a user submits a search, then counter is updated and photo's appear  */}
+        <div>{photosGallery.length ? <div className="flex flex-wrap justify-center mt-6">{displayPhotos}</div> : null}</div>
       </main>
 
       <footer className=""></footer>

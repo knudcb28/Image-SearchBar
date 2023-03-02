@@ -2,17 +2,20 @@ import React from "react";
 import { useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 
-const SearchBar = ({onSubmit}) => {
+const SearchBar = ({onSubmit, setSearchValue}) => {
   const [searchBarText, setSearchBarText] = useState("");
 
   const handleOnChange = (e) => {
     console.log(searchBarText);
     setSearchBarText(e.target.value);
+    setSearchValue(e.target.value)
   };
 
   return (
     <div>
-      <form onSubmit={onSubmit}>
+      <form
+        onSubmit={onSubmit}
+      >
         <div className="flex justify-center mt-10">
           <div className="relative">
             <input
